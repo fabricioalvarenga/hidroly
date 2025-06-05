@@ -1,11 +1,11 @@
 //
-//  ClimateModel.swift
+//  Climate.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum ClimateModel: String, CaseIterable, Identifiable {
+enum Climate: String, CaseIterable, Identifiable {
     case temperate_or_cold
     case hot
     case veryHot
@@ -21,3 +21,4 @@ enum ClimateModel: String, CaseIterable, Identifiable {
     }
 }
 
+extension Climate: IdentifiableParameterHidratation {}

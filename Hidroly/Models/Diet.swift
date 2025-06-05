@@ -1,11 +1,11 @@
 //
-//  DietModel.swift
+//  Diet.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum DietModel: String, CaseIterable, Identifiable {
+enum Diet: String, CaseIterable, Identifiable {
     case none
     case balanced
     case vegetarian
@@ -25,3 +25,4 @@ enum DietModel: String, CaseIterable, Identifiable {
     }
 }
 
+extension Diet: IdentifiableParameterHidratation {}

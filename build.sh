@@ -55,4 +55,4 @@ if [ $BUILD_STATUS -ne 0 ]; then
 fi
 
 # Execute the app
-./exec.sh
+./exec.sh 

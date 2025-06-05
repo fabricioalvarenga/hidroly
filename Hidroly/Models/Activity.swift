@@ -1,11 +1,11 @@
 //
-//  ActivityModel.swift
+//  Activity.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum ActivityModel: String, CaseIterable, Identifiable {
+enum Activity: String, CaseIterable, Identifiable {
     case none_or_slight
     case moderate
     case intense
@@ -21,3 +21,4 @@ enum ActivityModel: String, CaseIterable, Identifiable {
     }
 }
 
+extension Activity: IdentifiableParameterHidratation {}

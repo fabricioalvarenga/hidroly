@@ -1,11 +1,11 @@
 //
-//  GenderModel.swift
+//  Gender.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum GenderModel: String, CaseIterable, Identifiable {
+enum Gender: String, CaseIterable, Identifiable {
     case male
     case female
     case notInformed
@@ -21,3 +21,4 @@ enum GenderModel: String, CaseIterable, Identifiable {
     }
 }
 
+extension Gender: IdentifiableParameterHidratation {}

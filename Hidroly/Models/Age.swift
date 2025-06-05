@@ -1,11 +1,11 @@
 //
-//  AgeModel.swift
+//  Age.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum AgeModel: String, CaseIterable, Identifiable {
+enum Age: String, CaseIterable, Identifiable {
     case child
     case middleAge
     case senior
@@ -21,3 +21,4 @@ enum AgeModel: String, CaseIterable, Identifiable {
     }
 }
 
+extension Age: IdentifiableParameterHidratation {}

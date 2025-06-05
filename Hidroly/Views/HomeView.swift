@@ -9,27 +9,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var intakeProgress = 0.5
     @State private var showOptionsSheet = false
-    @State private var option: Option?
-
-    private enum Option: Int {
-        case age = 1
-        case weight
-        case gender
-        case activity
-        case climate
-        case diet
-
-        var icon: Image {
-            switch self {
-                case .age: Image(systemName: "person.crop.circle.badge.clock")
-                case .weight: Image(systemName: "scalemass")
-                case .gender: Image(systemName: "person.fill")
-                case .activity: Image(systemName: "figure.run")
-                case .climate: Image(systemName: "cloud.sun")
-                case .diet: Image(systemName: "fork.knife.circle")
-            }
-        }
-    }
+    @State private var hidratationParameter: HidratationParameter?
 
     var body: some View {
         GeometryReader { geometry in 
@@ -74,13 +54,13 @@ struct HomeView: View {
         }
         .padding(100)
         .confirmationDialog("", isPresented: $showOptionsSheet) {
-            switch option {
-                case .age: ageOptionsView
-                case .weight: weightOptionsView
-                case .gender: genderOptionsView
-                case .activity: activityOptionsView
-                case .climate: climateOptionsView
-                case .diet: dietOptionsView
+            switch hidratationParameter {
+                case .age: chooseOptionView(for: Age.self)
+                case .weight: chooseOptionView(for: Weight.self)
+                case .gender: chooseOptionView(for: Gender.self)
+                case .activity: chooseOptionView(for: Activity.self)
+                case .climate: chooseOptionView(for: Climate.self)
+                case .diet: chooseOptionView(for: Diet.self)
                 default: EmptyView()
             }
             Button("Cancel", role: .cancel) {}
@@ -90,10 +70,10 @@ struct HomeView: View {
     @ViewBuilder
     func drawButton(at position: CGPoint, for index: Int) -> some View {
         Button {
-            option = Option(rawValue: index)
+            hidratationParameter = HidratationParameter(rawValue: index)
             showOptionsSheet.toggle()
         } label: {
-            (Option(rawValue: index)?.icon ?? Image(systemName: "exclamationmark.triangle"))
+            (HidratationParameter(rawValue: index)?.icon ?? Image(systemName: "exclamationmark.triangle"))
                 .foregroundStyle(.blue)
                 .padding(10)
                 .background(Circle().fill(Color.white))
@@ -103,44 +83,9 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    var ageOptionsView: some View {
-        ForEach(AgeModel.allCases) { age in 
-            Button(age.description) {}
-        }
-    }
-
-    @ViewBuilder
-    var weightOptionsView: some View {
-        ForEach(WeightModel.allCases) { weight in 
-            Button(weight.description) {}
-        }
-    }
-
-    @ViewBuilder
-    var genderOptionsView: some View {
-        ForEach(GenderModel.allCases) { gender in 
-            Button(gender.description) {}
-        }
-    }
-    
-    @ViewBuilder
-    var activityOptionsView: some View {
-        ForEach(ActivityModel.allCases) { activity in 
-            Button(activity.description) {}
-        }
-    }
-
-    @ViewBuilder
-    var climateOptionsView: some View {
-        ForEach(ClimateModel.allCases) { climate in 
-            Button(climate.description) {}
-        }
-    }
-
-    @ViewBuilder
-    var dietOptionsView: some View {
-        ForEach(DietModel.allCases) { diet in 
-            Button(diet.description) {}
+    func chooseOptionView<T: IdentifiableParameterHidratation>(for type: T.Type) -> some View {
+        ForEach(Array(T.allCases), id: \.id) { choosedOption in 
+            Button(choosedOption.description) {}
         }
     }
 }

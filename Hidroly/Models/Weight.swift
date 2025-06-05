@@ -1,11 +1,11 @@
 //
-//  WeightModel.swift
+//  Weight.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum WeightModel: String, CaseIterable, Identifiable {
+enum Weight: String, CaseIterable, Identifiable {
     case light
     case medium
     case heavy
@@ -23,3 +23,4 @@ enum WeightModel: String, CaseIterable, Identifiable {
     }
 }
 
+extension Weight: IdentifiableParameterHidratation {}

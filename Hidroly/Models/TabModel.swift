@@ -1,5 +1,5 @@
 //
-//  Tab.swift
+//  TabModel.swift
 //  Hidroly
 //
 //  Created by FABRICIO ALVARENGA on 26/05/25.
