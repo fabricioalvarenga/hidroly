@@ -9,6 +9,15 @@ DESTINATION="platform=$PLATFORM,name=$DEVICE_NAME,OS=$OS_VERSION"
 
 set -o pipefail 
 
+# Create build parameters (buildServer.json)
+ if ! which xcode-build-server &> /dev/null; then
+     echo "xcode-build-server not installed. Installing it with 'brew install xcode-build-server'..."
+     brew install xcode-build-server
+fi
+echo "Creating build parameters..."
+rm -f buildServer.json
+xcode-build-server config -scheme $SCHEME -project *.xcodeproj
+
 # Verify if xcpretty is already installed
 if ! which xcpretty &> /dev/null; then
     if which gem &> /dev/null; then
