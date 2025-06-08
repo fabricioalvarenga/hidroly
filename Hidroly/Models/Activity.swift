@@ -5,20 +5,14 @@
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum Activity: String, CaseIterable, Identifiable {
-    case none_or_slight
-    case moderate
-    case intense
+import SwiftUI
 
-    var id: String { self.rawValue }
+struct Activity: HidratationParameterProtocol {
+    var icon = Image(systemName: "figure.run")
 
-    var description: String {
-        switch self {
-            case .none_or_slight: "Nenhuma ou Leve"
-            case .moderate: "Moderada"
-            case .intense: "Intensa"
-        }
-    }
+    var options: [(key: String, value: String)] = [
+        ("none_or_slight", "Nenhuma ou Leve"),
+        ("moderate", "Moderada"),
+        ("intense", "Intensa")
+    ]
 }
-
-extension Activity: IdentifiableParameterHidratation {}

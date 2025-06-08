@@ -5,20 +5,14 @@
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum Gender: String, CaseIterable, Identifiable {
-    case male
-    case female
-    case notInformed
+import SwiftUI
 
-    var id: String { self.rawValue }
+struct Gender: HidratationParameterProtocol {
+    var icon = Image(systemName: "person.fill")
 
-    var description: String {
-        switch self {
-            case .male: "Masculino"
-            case .female: "Feminino"
-            case .notInformed: "Não Informar"
-        }
-    }
+    var options: [(key: String, value: String)] = [
+        ("male", "Masculino"),
+        ("female", "Feminino"),
+        ("notInformed", "Não Informar")
+    ]
 }
-
-extension Gender: IdentifiableParameterHidratation {}

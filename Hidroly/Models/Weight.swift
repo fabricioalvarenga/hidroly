@@ -5,22 +5,15 @@
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum Weight: String, CaseIterable, Identifiable {
-    case light
-    case medium
-    case heavy
-    case veryHeavy
+import SwiftUI
 
-    var id: String { self.rawValue }
+struct Weight: HidratationParameterProtocol {
+    var icon = Image(systemName: "scalemass")
 
-    var description: String {
-        switch self {
-            case .light: "Menos de 60kg"
-            case .medium: "Entre 60kg e 79kg"
-            case .heavy: "Entre 80kg e 100kg"
-            case .veryHeavy: "Mais de 100kg"
-        }
-    }
+    var options: [(key: String, value: String)] = [
+        ("light", "Menos de 60kg"),
+        ("medium", "Entre 60kg e 79kg"),
+        ("heavy", "Entre 80kg e 100kg"),
+        ("veryHeavy", "Mais de 100kg")
+    ]
 }
-
-extension Weight: IdentifiableParameterHidratation {}

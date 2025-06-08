@@ -5,8 +5,10 @@
 //  Created by FABRICIO ALVARENGA on 05/06/25.
 //
 
-import Foundation
+import SwiftUI
 
-protocol HidratationParameterProtocol: CaseIterable, Identifiable {
-    var description: String { get }
+protocol HidratationParameterProtocol {
+    var icon: Image { get }
+    var options: [(key: String, value: String)] { get }
 }
+

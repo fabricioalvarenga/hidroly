@@ -9,7 +9,8 @@ import SwiftUI
 struct HomeView: View {
     @State private var intakeProgress = 0.5
     @State private var showOptionsSheet = false
-    @State private var hidratationParameter: HidratationParameter?
+    @State private var hidratattionParameters: [any HidratationParameterProtocol] = [Age(), Activity(), Climate(), Diet(), Gender(), Weight()]
+    @State private var choosedParameter: [(key: String, value: String)] = []
 
     var body: some View {
         GeometryReader { geometry in 
@@ -38,7 +39,8 @@ struct HomeView: View {
                     .bold()
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
 
-                ForEach(1..<7) { index in 
+                let count = hidratattionParameters.count
+                ForEach(0..<(count), id: \.self) { index in 
                     // let angle = Angle.degrees(Double(index) / 5.0 * 360.0)
                     let angle = Angle.degrees(360.0 / 6 * Double(index))
 
@@ -54,14 +56,8 @@ struct HomeView: View {
         }
         .padding(100)
         .confirmationDialog("", isPresented: $showOptionsSheet) {
-            switch hidratationParameter {
-                case .age: chooseOptionView(for: Age.self)
-                case .weight: chooseOptionView(for: Weight.self)
-                case .gender: chooseOptionView(for: Gender.self)
-                case .activity: chooseOptionView(for: Activity.self)
-                case .climate: chooseOptionView(for: Climate.self)
-                case .diet: chooseOptionView(for: Diet.self)
-                default: EmptyView()
+            ForEach(choosedParameter, id:\.key) { parameter in 
+                Button(parameter.value) {}
             }
             Button("Cancel", role: .cancel) {}
         }
@@ -70,10 +66,10 @@ struct HomeView: View {
     @ViewBuilder
     func drawButton(at position: CGPoint, for index: Int) -> some View {
         Button {
-            hidratationParameter = HidratationParameter(rawValue: index)
+            choosedParameter = hidratattionParameters[index].options
             showOptionsSheet.toggle()
         } label: {
-            (HidratationParameter(rawValue: index)?.icon ?? Image(systemName: "exclamationmark.triangle"))
+            hidratattionParameters[index].icon
                 .foregroundStyle(.blue)
                 .padding(10)
                 .background(Circle().fill(Color.white))
@@ -82,10 +78,10 @@ struct HomeView: View {
         .position(x: position.x, y: position.y)
     }
 
-    @ViewBuilder
-    func chooseOptionView<T: IdentifiableParameterHidratation>(for type: T.Type) -> some View {
-        ForEach(Array(T.allCases), id: \.id) { choosedOption in 
-            Button(choosedOption.description) {}
-        }
-    }
+    // @ViewBuilder
+    // func chooseOptionView<T: HidratationParameterProtocol>(for type: T.Type) -> some View {
+    //     ForEach(Array(T.allCases), id: \.id) { choosedOption in 
+    //         Button(choosedOption.description) {}
+    //     }
+    // }
 }

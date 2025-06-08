@@ -5,20 +5,14 @@
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum Age: String, CaseIterable, Identifiable {
-    case child
-    case middleAge
-    case senior
+import SwiftUI
 
-    var id: String { self.rawValue }
+struct Age: HidratationParameterProtocol {
+    var icon = Image(systemName: "person.crop.circle.badge.clock")
 
-    var description: String {
-        switch self {
-            case .child: "Menos de 8 anos"
-            case .middleAge: "Entre 8 e 59 anos"
-            case .senior: "Mais de 59 anos"
-        }
-    }
+    var options: [(key: String, value: String)] = [
+        ("child", "Menos de 8 anos"),
+        ("middleAge", "Entre 8 e 59 anos"),
+        ("senior", "Mais de 59 anos")
+    ]
 }
-
-extension Age: IdentifiableParameterHidratation {}

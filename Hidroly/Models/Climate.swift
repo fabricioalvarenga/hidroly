@@ -5,20 +5,15 @@
 //  Created by FABRICIO ALVARENGA on 04/06/25.
 //
 
-enum Climate: String, CaseIterable, Identifiable {
-    case temperate_or_cold
-    case hot
-    case veryHot
 
-    var id: String { self.rawValue }
+import SwiftUI
 
-    var description: String {
-        switch self {
-            case .temperate_or_cold: "Temperado ou Frio"
-            case .hot: "Quente"
-            case .veryHot: "Muito Quente"
-        }
-    }
+struct Climate: HidratationParameterProtocol {
+    var icon = Image(systemName: "cloud.sun")
+
+    var options: [(key: String, value: String)] = [
+        ("temperate_or_cold", "Temperado ou Frio"),
+        ("hot","Quente"),
+        ("veryHot", "Muito Quente"),
+    ]
 }
-
-extension Climate: IdentifiableParameterHidratation {}
