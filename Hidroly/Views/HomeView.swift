@@ -8,9 +8,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var intakeProgress = 0.5
-    @State private var showOptionsSheet = false
-    @State private var hidratattionParameters: [any HidratationParameterProtocol] = [Age(), Activity(), Climate(), Diet(), Gender(), Weight()]
-    @State private var choosedParameter: [(key: String, value: String)] = []
+    @StateObject var viewModel = HomeViewModel()
 
     var body: some View {
         GeometryReader { geometry in 
@@ -39,49 +37,31 @@ struct HomeView: View {
                     .bold()
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
 
-                let count = hidratattionParameters.count
-                ForEach(0..<(count), id: \.self) { index in 
-                    // let angle = Angle.degrees(Double(index) / 5.0 * 360.0)
-                    let angle = Angle.degrees(360.0 / 6 * Double(index))
+                let count = Double(viewModel.parameterManagers.count)
+                ForEach(viewModel.parameterManagers.indices, id: \.self) { index in
+                    let angle = Angle.degrees(360.0 / count * Double(index))
 
                     let x = (radius + offset) * cos(angle.radians)
                     let y = (radius + offset) * sin(angle.radians)
 
                     let position = CGPoint(x: geometry.size.width / 2 + x, y: geometry.size.height / 2 + y)
 
-                    drawButton(at: position, for: index)
+                    ParameterButton(manager: viewModel.parameterManagers[index], position: position) {
+                        viewModel.showParameterDialog(for: index)
+                    }
+
                 }
             }
             .frame(width: size, height: size)
         }
         .padding(100)
-        .confirmationDialog("", isPresented: $showOptionsSheet) {
-            ForEach(choosedParameter, id:\.key) { parameter in 
-                Button(parameter.value) {}
+        .confirmationDialog("Are you sure you want to delete all parameters?", isPresented: $viewModel.showingParameterDialog) {
+            ForEach(viewModel.activeManager?.dialogOptions ?? []) { option in 
+                Button(option.displayName) {
+                    option.onSelect()
+                }
             }
-            Button("Cancel", role: .cancel) {}
+            Button("Cancelar", role: .cancel) {}
         }
     }
-
-    @ViewBuilder
-    func drawButton(at position: CGPoint, for index: Int) -> some View {
-        Button {
-            choosedParameter = hidratattionParameters[index].options
-            showOptionsSheet.toggle()
-        } label: {
-            hidratattionParameters[index].icon
-                .foregroundStyle(.blue)
-                .padding(10)
-                .background(Circle().fill(Color.white))
-                .shadow(radius: 2)
-        }
-        .position(x: position.x, y: position.y)
-    }
-
-    // @ViewBuilder
-    // func chooseOptionView<T: HidratationParameterProtocol>(for type: T.Type) -> some View {
-    //     ForEach(Array(T.allCases), id: \.id) { choosedOption in 
-    //         Button(choosedOption.description) {}
-    //     }
-    // }
 }

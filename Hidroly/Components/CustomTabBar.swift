@@ -74,12 +74,3 @@ struct CustomTabBar: View {
         .animation(.smooth(duration: 0.3, extraBounce: 0), value: activeTab)
     }
 }
-
-#Preview {
-    VStack{
-        CustomTabBar(activeTab: .constant(TabModel.home))
-        CustomTabBar(activeTab: .constant(TabModel.history))
-        CustomTabBar(activeTab: .constant(TabModel.notifications))
-        CustomTabBar(activeTab: .constant(TabModel.settings))
-    }
-}
