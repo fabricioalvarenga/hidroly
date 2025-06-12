@@ -22,11 +22,16 @@ struct ParameterButton: View {
                         Circle()
                             .fill(Color.blue.gradient)
                     }
-                    // .background(Circle().fill(Color.blue))
                     .shadow(radius: 2)
 
                 Text(manager.selectedDisplayName)
                     .font(.caption2)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal, 5)
+                    .frame(maxWidth: 80)
+                    .minimumScaleFactor(0.8)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .position(x: position.x, y: position.y)
