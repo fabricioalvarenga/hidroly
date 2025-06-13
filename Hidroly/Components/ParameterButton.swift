@@ -12,9 +12,11 @@ struct ParameterButton: View {
     let position: CGPoint
     let action: () -> Void
 
+    @State private var frameHeight: CGFloat = 0.0
+
     var body: some View {
-        Button(action: action) {
-            VStack {
+        VStack {
+            Button(action: action) {
                 manager.icon
                     .foregroundStyle(.white)
                     .padding(10)
@@ -23,18 +25,21 @@ struct ParameterButton: View {
                             .fill(Color.blue.gradient)
                     }
                     .shadow(radius: 2)
-
-                Text(manager.selectedDisplayName)
-                    .font(.caption2)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .padding(.horizontal, 5)
-                    .frame(maxWidth: 80)
-                    .minimumScaleFactor(0.8)
-                    .fixedSize(horizontal: false, vertical: true)
+                
             }
+
+            Text(manager.selectedDisplayName)
+                .font(.caption2)
+                .foregroundStyle(Color.blue)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .padding(.horizontal, 5)
+                .frame(maxWidth: 80)
+                .minimumScaleFactor(0.8)
+                .fixedSize(horizontal: false, vertical: true)
+           
         }
         .position(x: position.x, y: position.y)
+        .animation(.easeInOut(duration: 0.3), value: manager.selectedDisplayName)
     }
 }
-
