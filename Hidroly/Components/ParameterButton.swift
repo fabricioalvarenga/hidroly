@@ -20,14 +20,14 @@ struct ParameterButton: View {
                     .padding(10)
                     .background(alignment: .leading) {
                         Circle()
-                            .fill(manager.itemSelected ? Color.blue.gradient : Color.red.gradient)
+                            .fill(manager.itemSelected ? Color.blue : Color.secondary)
                     }
                     .shadow(radius: 2)
             }
 
             Text(manager.title)
                 .font(.caption2)
-                .foregroundStyle(Color.blue)
+                .foregroundStyle(manager.itemSelected ? Color.blue : Color.secondary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .frame(maxWidth: 80)
@@ -37,4 +37,9 @@ struct ParameterButton: View {
         }
         .animation(.easeInOut(duration: 0.3), value: manager.selectedDisplayName)
    }
+}
+
+#Preview {
+    let manager = ParameterManager(parameterType: AgeType.self, title: "Idade", icon: Image(systemName: "person.crop.circle.badge.clock"))
+    ParameterButton(manager: manager, action: {})
 }
