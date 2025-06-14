@@ -10,6 +10,7 @@ import SwiftUI
 protocol AnyParameterManager: ObservableObject {
     var title: String { get }
     var icon: Image { get }
+    var itemSelected: Bool { get }
     var selectedDisplayName: String { get }
     var calculationFactor: Double { get }
     var dialogOptions: [ParameterOption] { get }

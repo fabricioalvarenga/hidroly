@@ -19,6 +19,10 @@ class ParameterManager<T: ConfigurableParameter>: AnyParameterManager {
         self.title = title
         self.icon = icon
     }
+
+    var itemSelected: Bool {
+        return selectedValue != nil
+    }
     
      var selectedDisplayName: String {
          selectedValue?.displayName ?? "Não selecionado"
