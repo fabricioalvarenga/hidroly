@@ -12,14 +12,27 @@ struct HomeView: View {
 
     var body: some View {
         GeometryReader { geometry in 
+            let quaterOfWindowY = geometry.size.height / 4
             let size = min(geometry.size.width, geometry.size.height)
-            let radius = size / 2.0
-            let offset = 60.0
+            let radius = size * 0.2
+            let offset = radius * 1.05
 
             ZStack {
+                HStack {
+                    Text("Seu Peso:")
+
+                    TextField("", value: $viewModel.weight, formatter: NumberFormatter()) 
+                        .textFieldStyle(.roundedBorder)
+
+                    Stepper("", value: $viewModel.weight)
+                        .labelsHidden()
+                }
+                .offset(y: -quaterOfWindowY * 1.8)
+                .padding()
+
                 Circle()
                     .stroke(Color.gray.opacity(0.2), lineWidth: 20)
-                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                    .padding(radius)
 
                 Circle()
                 .trim(from: 0.0, to: intakeProgress)
@@ -29,32 +42,29 @@ struct HomeView: View {
                                         endAngle: Angle(degrees: 360 * intakeProgress)),
                         style: StrokeStyle(lineWidth: 20, lineCap: .round)
                 )
+                .padding(radius)
                 .rotationEffect(.degrees(-90))
-                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                
+
                 Text("\(Int(intakeProgress * 100))%")
                     .font(.largeTitle)
                     .bold()
-                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
 
                 let count = Double(viewModel.parameterManagers.count)
+
                 ForEach(viewModel.parameterManagers.indices, id: \.self) { index in
                     let angle = Angle.degrees(360.0 / count * Double(index))
 
                     let x = (radius + offset) * cos(angle.radians)
                     let y = (radius + offset) * sin(angle.radians)
 
-                    let position = CGPoint(x: geometry.size.width / 2 + x, y: geometry.size.height / 2 + y)
-
-                    ParameterButton(manager: viewModel.parameterManagers[index], position: position) {
+                    ParameterButton(manager: viewModel.parameterManagers[index]) {
                         viewModel.showParameterDialog(for: index)
                     }
-
+                    .offset(x: x, y: y)
                 }
             }
-            .frame(width: size, height: size)
+            .offset(y: quaterOfWindowY)
         }
-        .padding(100)
         .confirmationDialog("Are you sure you want to delete all parameters?", isPresented: $viewModel.showingParameterDialog) {
             ForEach(viewModel.activeManager?.dialogOptions ?? []) { option in 
                 Button(option.displayName) {

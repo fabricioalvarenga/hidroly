@@ -11,6 +11,7 @@ class HomeViewModel: ObservableObject {
     @Published var showingParameterDialog = false
     @Published var activeManagerIndex: Int?
     @Published var parameterManagers: [any AnyParameterManager] = []
+    @Published var weight = 0
 
     init() {
         setupParameters()

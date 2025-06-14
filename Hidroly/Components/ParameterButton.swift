@@ -9,12 +9,10 @@ import SwiftUI
 
 struct ParameterButton: View {
     let manager: any AnyParameterManager
-    let position: CGPoint
+    var position: CGPoint?
     let action: () -> Void
 
-    @State private var frameHeight: CGFloat = 0.0
-
-    var body: some View {
+   var body: some View {
         VStack {
             Button(action: action) {
                 manager.icon
@@ -28,18 +26,18 @@ struct ParameterButton: View {
                 
             }
 
-            Text(manager.selectedDisplayName)
-                .font(.caption2)
-                .foregroundStyle(Color.blue)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .padding(.horizontal, 5)
-                .frame(maxWidth: 80)
-                .minimumScaleFactor(0.8)
-                .fixedSize(horizontal: false, vertical: true)
+            // Text(manager.selectedDisplayName)
+            //     .font(.caption2)
+            //     .foregroundStyle(Color.blue)
+            //     .multilineTextAlignment(.center)
+            //     .lineLimit(2)
+            //     .padding(.horizontal, 5)
+            //     .frame(maxWidth: 80)
+            //     .minimumScaleFactor(0.8)
+            //     .fixedSize(horizontal: false, vertical: true)
            
         }
-        .position(x: position.x, y: position.y)
         .animation(.easeInOut(duration: 0.3), value: manager.selectedDisplayName)
-    }
+   }
+
 }
