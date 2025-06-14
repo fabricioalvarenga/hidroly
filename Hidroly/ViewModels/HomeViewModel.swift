@@ -20,7 +20,7 @@ class HomeViewModel: ObservableObject {
     private func setupParameters() {
         parameterManagers = [
             ParameterManager(parameterType: AgeType.self, title: "Idade", icon: Image(systemName: "person.crop.circle.badge.clock")),
-            ParameterManager(parameterType: ActivityType.self, title: "Atividade Física", icon: Image(systemName: "figure.run")),
+            ParameterManager(parameterType: ActivityType.self, title: "Atividade", icon: Image(systemName: "figure.run")),
             ParameterManager(parameterType: ClimateType.self, title: "Clima", icon: Image(systemName: "cloud.sun")),
             ParameterManager(parameterType: DietType.self, title: "Dieta", icon: Image(systemName: "fork.knife.circle")),
             ParameterManager(parameterType: GenderType.self, title: "Gênero", icon: Image(systemName: "person.fill"))
