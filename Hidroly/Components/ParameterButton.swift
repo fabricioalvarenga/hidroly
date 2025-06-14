@@ -20,24 +20,21 @@ struct ParameterButton: View {
                     .padding(10)
                     .background(alignment: .leading) {
                         Circle()
-                            .fill(Color.blue.gradient)
+                            .fill(manager.itemSelected ? Color.blue.gradient : Color.red.gradient)
                     }
                     .shadow(radius: 2)
-                
             }
 
-            // Text(manager.selectedDisplayName)
-            //     .font(.caption2)
-            //     .foregroundStyle(Color.blue)
-            //     .multilineTextAlignment(.center)
-            //     .lineLimit(2)
-            //     .padding(.horizontal, 5)
-            //     .frame(maxWidth: 80)
-            //     .minimumScaleFactor(0.8)
-            //     .fixedSize(horizontal: false, vertical: true)
+            Text(manager.title)
+                .font(.caption2)
+                .foregroundStyle(Color.blue)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .frame(maxWidth: 80)
+                .minimumScaleFactor(0.8)
+                .fixedSize(horizontal: false, vertical: true)
            
         }
         .animation(.easeInOut(duration: 0.3), value: manager.selectedDisplayName)
    }
-
 }
