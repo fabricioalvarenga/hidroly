@@ -25,26 +25,26 @@ struct HomeView: View {
         VStack {
             ZStack {
                 Capsule()
-                    .foregroundStyle(Color.blue)
-                    .frame(height: 60)
+                    .foregroundStyle(Color.blue.gradient)
+                    .frame(height: 50)
+                    .customShadow(opacity: 0.2, in: .capsule)
                     .padding()
-                
+                    
                 HStack {
                     Text("Seu Peso:")
                         .font(.title3)
-                        .fontWeight(.bold)
                         .foregroundStyle(Color.white)
                     
                     TextField("", value: $weight, formatter: numberFormatter)
                         .textFieldStyle(.roundedBorder)
                         .multilineTextAlignment(.center)
                         .keyboardType(.decimalPad)
-                    
-                    CustomStepper(value: $weight)
+                        
+                    CustomStepper(value: $weight, step: 0.5)
                 }
-                .padding()
-                .padding(.horizontal)
+                .padding(.horizontal, 32)
             }
+            .padding(.top)
             
             GeometryReader { geometry in
                 let minSize = min(geometry.size.width, geometry.size.height)
@@ -71,6 +71,7 @@ struct HomeView: View {
             }
             .padding(.bottom)
         }
+        .navigationTitle(TabModel.home.title)
         .confirmationDialog("Escolha uma opção", isPresented: $viewModel.showingParameterDialog) {
             ForEach(viewModel.activeManager?.dialogOptions ?? []) { option in 
                 Button(option.displayName) {
@@ -86,6 +87,7 @@ struct HomeView: View {
         Circle()
             .stroke(Color.gray.opacity(0.2), lineWidth: 20)
             .padding(10)
+            .customShadow(opacity: 0.1, in: .circle)
 
         Circle()
             .trim(from: 0.0, to: intakeProgress)
