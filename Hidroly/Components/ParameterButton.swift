@@ -11,6 +11,8 @@ struct ParameterButton: View {
     let manager: any AnyParameterManager
     let textPosition: TextPosition
     let action: () -> Void
+    let circleSize: CGFloat = 40.0
+    let textMaxWidth: CGFloat = 80.0
     
     enum TextPosition {
         case top
@@ -33,6 +35,7 @@ struct ParameterButton: View {
     @ViewBuilder
     var icon: some View {
         manager.icon
+            .frame(width: circleSize, height: circleSize)
             .foregroundStyle(.white)
             .padding(10)
             .background(alignment: .leading) {
