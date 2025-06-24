@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var weight: Float = 50
+    @State private var weight: Float = 60.0
     @State private var intakeProgress = 0.5
     @StateObject var viewModel = HomeViewModel()
-    
+
     private let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -23,38 +23,17 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            ZStack {
-                Capsule()
-                    .foregroundStyle(Color.blue.gradient)
-                    .frame(height: 50)
-                    .customShadow(opacity: 0.2, in: .capsule)
-                    .padding()
-                    
-                HStack {
-                    Text("Seu Peso:")
-                        .font(.title3)
-                        .foregroundStyle(Color.white)
-                    
-                    TextField("", value: $weight, formatter: numberFormatter)
-                        .textFieldStyle(.roundedBorder)
-                        .multilineTextAlignment(.center)
-                        .keyboardType(.decimalPad)
-                        
-                    CustomStepper(value: $weight, step: 0.5)
-                }
-                .padding(.horizontal, 32)
-            }
-            .padding(.top)
-            
+            weightInput
+
             GeometryReader { geometry in
                 let minSize = min(geometry.size.width, geometry.size.height)
-                let circlePadding = minSize * 0.15
+                let circlePadding = minSize * 0.2
                 
                 VStack {
                     Spacer()
                     
                     ZStack {
-                        drawCircles()
+                        drawMainCircle
 
                         Text("\(Int(intakeProgress * 100))%")
                             .font(.largeTitle)
@@ -83,10 +62,44 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    func drawCircles() -> some View {
+    var weightInput: some View {
+        ZStack {
+            Capsule()
+                .foregroundStyle(Color.blue.gradient)
+                .frame(height: 50)
+                .customShadow(opacity: 0.2, in: .capsule)
+                .padding()
+                
+            HStack {
+                Text("Seu Peso:")
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.white)
+
+                TextField("", value: $weight, formatter: numberFormatter) 
+                    .textFieldStyle(.roundedBorder)
+                    .multilineTextAlignment(.center)
+                    .keyboardType(.decimalPad)
+                    .overlay(
+                        Image(systemName: "scalemass")
+                            .padding(.leading),
+                        alignment: .leading
+                    )
+                    
+                CustomStepper(value: $weight, step: 0.5)
+            }
+            .padding(.horizontal, 32)
+        }
+        .padding(.top)
+    }
+
+    @ViewBuilder
+    var drawMainCircle: some View {
+        let circleLineWdith: CGFloat = 20.0
+        let circlePadding: CGFloat = 10.0
+    
         Circle()
-            .stroke(Color.gray.opacity(0.2), lineWidth: 20)
-            .padding(10)
+            .stroke(Color.gray.opacity(0.2), lineWidth: circleLineWdith)
+            .padding(circlePadding)
             .customShadow(opacity: 0.1, in: .circle)
 
         Circle()
@@ -95,16 +108,16 @@ struct HomeView: View {
                         center: .center,
                         startAngle: Angle(degrees: 0),
                         endAngle: Angle(degrees: 360 * intakeProgress)),
-                    style: StrokeStyle(lineWidth: 20, lineCap: .round)
+                    style: StrokeStyle(lineWidth: circleLineWdith, lineCap: .round)
                    )
-            .padding(10)
+            .padding(circlePadding)
             .rotationEffect(.degrees(-90))
     }
     
     @ViewBuilder
     func drawParameterButtons(size: CGSize) -> some View {
         let minSize = min(size.width, size.height)
-        let radius = minSize / 2 * 0.865
+        let radius = minSize / 2 * 0.825
         
         let count = Double(viewModel.parameterManagers.count)
         
