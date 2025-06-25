@@ -29,6 +29,7 @@ struct HomeView: View {
             GeometryReader { geometry in
                 let minSize = min(geometry.size.width, geometry.size.height)
                 let circlePadding = minSize * 0.2
+                let radius = minSize / 2 * 0.45
                 
                 VStack {
                     Spacer()
@@ -36,16 +37,12 @@ struct HomeView: View {
                     ZStack {
                         drawMainCircle
 
-                        VStack {
-                            Text("\(Int(intakeProgress * 100))%")
-                                .font(.largeTitle)
-                                .bold()
-
-                            Text("\(amountIngested) ml")
-                                .font(.title3)
-                                .foregroundStyle(Color.secondary)
-                        }
+                        Text("\(Int(intakeProgress * 100))%")
+                            .font(.largeTitle)
+                            .bold()
                                
+                        CircularTextView(radius: radius, text: "SUA META: \(amountIngested) ml")
+
                         drawParameterButtons(size: geometry.size)
                     }
                     .padding(circlePadding)
