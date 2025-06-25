@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var weight: Float = 60.0
     @State private var intakeProgress = 0.5
+    @State private var amountIngested = 200
     @StateObject var viewModel = HomeViewModel()
 
     private let numberFormatter: NumberFormatter = {
@@ -35,9 +36,15 @@ struct HomeView: View {
                     ZStack {
                         drawMainCircle
 
-                        Text("\(Int(intakeProgress * 100))%")
-                            .font(.largeTitle)
-                            .bold()
+                        VStack {
+                            Text("\(Int(intakeProgress * 100))%")
+                                .font(.largeTitle)
+                                .bold()
+
+                            Text("\(amountIngested) ml")
+                                .font(.title3)
+                                .foregroundStyle(Color.secondary)
+                        }
                                
                         drawParameterButtons(size: geometry.size)
                     }
@@ -84,22 +91,26 @@ struct HomeView: View {
                             .padding(.leading),
                         alignment: .leading
                     )
+                    .overlay(
+                        Text("kg")
+                            .padding(.trailing),
+                        alignment: .trailing
+                    )
                     
                 CustomStepper(value: $weight, step: 0.5)
             }
             .padding(.horizontal, 32)
         }
-        .padding(.top)
+        .padding(.top, 16)
     }
 
     @ViewBuilder
     var drawMainCircle: some View {
         let circleLineWdith: CGFloat = 20.0
-        let circlePadding: CGFloat = 10.0
     
         Circle()
             .stroke(Color.gray.opacity(0.2), lineWidth: circleLineWdith)
-            .padding(circlePadding)
+            .padding(10)
             .customShadow(opacity: 0.1, in: .circle)
 
         Circle()
@@ -110,7 +121,7 @@ struct HomeView: View {
                         endAngle: Angle(degrees: 360 * intakeProgress)),
                     style: StrokeStyle(lineWidth: circleLineWdith, lineCap: .round)
                    )
-            .padding(circlePadding)
+            .padding(10)
             .rotationEffect(.degrees(-90))
     }
     
