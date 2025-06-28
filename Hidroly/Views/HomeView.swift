@@ -46,7 +46,7 @@ struct HomeView: View {
                         drawParameterButtons(size: geometry.size)
                     }
                     .padding(circlePadding)
-                    
+
                     Spacer()
                 }
                 .frame(width: geometry.size.width)
