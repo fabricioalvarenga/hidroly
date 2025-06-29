@@ -9,8 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var weight: Float = 60.0
-    @State private var intakeProgress = 0.5
-    @State private var amountIngested = 200
+    @State private var intakeTarget: Double = 2000.0
+    @State private var intakeProgress: Double = 0.5
+    @State private var amountIngested: Double = 1000.0
     @StateObject var viewModel = HomeViewModel()
 
     private let numberFormatter: NumberFormatter = {
@@ -37,11 +38,13 @@ struct HomeView: View {
                     ZStack {
                         mainCircleView
 
+                        CircularTextView(radius: radius, text: "SUA META: \(intakeTarget) ml", textPosition: .top)
+
                         Text("\(Int(intakeProgress * 100))%")
                             .font(.largeTitle)
                             .bold()
                                
-                        CircularTextView(radius: radius, text: "SUA META: \(amountIngested) ml")
+                        CircularTextView(radius: radius, text: "INGERIDO ATÉ AGORA: \(amountIngested) ml", textPosition: .bottom)
 
                         parameterButtonsView(size: geometry.size)
                     }
