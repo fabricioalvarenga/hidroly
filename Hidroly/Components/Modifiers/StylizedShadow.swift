@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomShadow<T: InsettableShape>: ViewModifier {
+struct StylizedShadow<T: InsettableShape>: ViewModifier {
     let color: Color
     let opacity: Double
     let radius: CGFloat
@@ -28,6 +28,6 @@ struct CustomShadow<T: InsettableShape>: ViewModifier {
 
 extension View {
     func customShadow<T: InsettableShape>(color: Color = .black, opacity: Double = 0.2, radius: CGFloat = 5, x: CGFloat = 5, y: CGFloat = 5, in shape: T) -> some View {
-        modifier(CustomShadow(color: color, opacity: opacity, radius: radius, x: x, y: y, shape: shape))
+        modifier(StylizedShadow(color: color, opacity: opacity, radius: radius, x: x, y: y, shape: shape))
     }
 }
