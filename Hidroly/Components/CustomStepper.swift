@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomStepper: View {
-    @Binding var value: Float
+    @Binding var value: Double
     var step = 1.0
     
     var body: some View {
