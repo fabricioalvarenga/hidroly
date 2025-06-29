@@ -71,7 +71,7 @@ struct HomeView: View {
             Capsule()
                 .foregroundStyle(Color.blue.gradient)
                 .frame(height: 50)
-                .stylizedShadow(opacity: 0.2, in: .capsule)
+                .stylizedShadow(in: .capsule)
                 .padding()
                 
             HStack {
@@ -108,7 +108,7 @@ struct HomeView: View {
         Circle()
             .stroke(Color.gray.opacity(0.2), lineWidth: circleLineWdith)
             .padding(10)
-            .stylizedShadow(opacity: 0.1, in: .circle)
+            .stylizedShadow(in: .circle)
 
         Circle()
             .trim(from: 0.0, to: intakeProgress)
@@ -136,17 +136,16 @@ struct HomeView: View {
             let y = radius * sin(angle.radians)
             
             let manager = viewModel.parameterManagers[index]
-            let buttonBackground = manager.itemSelected ? Color.blue.gradient : Color.secondary.gradient
+            let buttonBackgroundColor = manager.itemSelected ? Color.green : Color.secondary
             let textPosition: Edge = (angle.degrees >= 0 && angle.degrees <= 180) ? .bottom : .top
-            let textColor = manager.itemSelected ? Color.blue : Color.secondary
 
             // ParameterButton(manager: viewModel.parameterManagers[index], textPosition: buttonTextPosition) {
             StylizedButton(content: manager.icon,
                            shape: Circle(),
-                           buttonBackgroundStyle: buttonBackground,
+                           buttonBackgroundStyle: buttonBackgroundColor.gradient,
                            externalText: manager.title,
                            externalTextPosition: textPosition,
-                           externalTextColor: textColor) {
+                           externalTextColor: buttonBackgroundColor) {
                 viewModel.showParameterDialog(for: index)
             }
             .offset(x: x, y: y)

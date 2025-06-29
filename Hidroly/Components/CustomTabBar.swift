@@ -65,7 +65,7 @@ struct CustomTabBar: View {
         .coordinateSpace(.named("TABBARVIEW"))
         .padding(.horizontal, 5)
         .frame(height: 45)
-        .stylizedShadow(opacity: 0.1, in: .capsule)
+        .stylizedShadow(in: .capsule)
         .animation(.smooth(duration: 0.3, extraBounce: 0), value: activeTab)
     }
 }

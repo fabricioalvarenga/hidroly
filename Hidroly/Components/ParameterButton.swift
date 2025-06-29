@@ -41,7 +41,7 @@ struct ParameterButton: View {
             .background(alignment: .leading) {
                 Circle()
                     .fill(manager.itemSelected ? Color.blue.gradient : Color.secondary.gradient)
-                    .customShadow(opacity: 0.1, in: .circle)
+                    .stylizedShadow(in: .circle)
             }
     }
     
