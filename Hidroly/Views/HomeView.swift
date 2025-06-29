@@ -24,18 +24,18 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            weightInput
+            weightInputView
 
             GeometryReader { geometry in
                 let minSize = min(geometry.size.width, geometry.size.height)
-                let circlePadding = minSize * 0.2
-                let radius = minSize / 2 * 0.45
+                let circlePadding = minSize * 0.225
+                let radius = minSize / 2 * 0.4
                 
                 VStack {
                     Spacer()
                     
                     ZStack {
-                        drawMainCircle
+                        mainCircleView
 
                         Text("\(Int(intakeProgress * 100))%")
                             .font(.largeTitle)
@@ -43,7 +43,7 @@ struct HomeView: View {
                                
                         CircularTextView(radius: radius, text: "SUA META: \(amountIngested) ml")
 
-                        drawParameterButtons(size: geometry.size)
+                        parameterButtonsView(size: geometry.size)
                     }
                     .padding(circlePadding)
 
@@ -66,12 +66,12 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    var weightInput: some View {
+    var weightInputView: some View {
         ZStack {
             Capsule()
                 .foregroundStyle(Color.blue.gradient)
                 .frame(height: 50)
-                .customShadow(opacity: 0.2, in: .capsule)
+                .stylizedShadow(opacity: 0.2, in: .capsule)
                 .padding()
                 
             HStack {
@@ -102,13 +102,13 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    var drawMainCircle: some View {
+    var mainCircleView: some View {
         let circleLineWdith: CGFloat = 20.0
     
         Circle()
             .stroke(Color.gray.opacity(0.2), lineWidth: circleLineWdith)
             .padding(10)
-            .customShadow(opacity: 0.1, in: .circle)
+            .stylizedShadow(opacity: 0.1, in: .circle)
 
         Circle()
             .trim(from: 0.0, to: intakeProgress)
@@ -123,9 +123,9 @@ struct HomeView: View {
     }
     
     @ViewBuilder
-    func drawParameterButtons(size: CGSize) -> some View {
+    func parameterButtonsView(size: CGSize) -> some View {
         let minSize = min(size.width, size.height)
-        let radius = minSize / 2 * 0.825
+        let radius = minSize / 2 * 0.8075
         
         let count = Double(viewModel.parameterManagers.count)
         
@@ -135,12 +135,22 @@ struct HomeView: View {
             let x = radius * cos(angle.radians)
             let y = radius * sin(angle.radians)
             
-            let buttonTextPosition: ParameterButton.TextPosition = (angle.degrees >= 0 && angle.degrees <= 180) ? .bottom : .top
-            
-            ParameterButton(manager: viewModel.parameterManagers[index], textPosition: buttonTextPosition) {
+            let manager = viewModel.parameterManagers[index]
+            let buttonBackground = manager.itemSelected ? Color.blue.gradient : Color.secondary.gradient
+            let textPosition: Edge = (angle.degrees >= 0 && angle.degrees <= 180) ? .bottom : .top
+            let textColor = manager.itemSelected ? Color.blue : Color.secondary
+
+            // ParameterButton(manager: viewModel.parameterManagers[index], textPosition: buttonTextPosition) {
+            StylizedButton(content: manager.icon,
+                           shape: Circle(),
+                           buttonBackgroundStyle: buttonBackground,
+                           externalText: manager.title,
+                           externalTextPosition: textPosition,
+                           externalTextColor: textColor) {
                 viewModel.showParameterDialog(for: index)
             }
             .offset(x: x, y: y)
+            .animation(.easeInOut(duration: 0.3), value: viewModel.parameterManagers[index].selectedDisplayName)
         }
     }
 }

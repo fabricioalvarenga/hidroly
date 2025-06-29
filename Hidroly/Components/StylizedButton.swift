@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ShapedButton<ButtonContent: View, ButtonShape: Shape, ButtonBackgroundStyle: ShapeStyle>: View, StylizedButtonProtocol {
+struct StylizedButton<ButtonContent: View, ButtonShape: Shape, ButtonBackgroundStyle: ShapeStyle>: View, StylizedButtonProtocol {
     let buttonContent: ButtonContent
     let buttonShape: ButtonShape
     let buttonWidth: CGFloat
@@ -34,8 +34,8 @@ struct ShapedButton<ButtonContent: View, ButtonShape: Shape, ButtonBackgroundSty
 
     init(content: ButtonContent,
          shape: ButtonShape,
-         buttonWidth: CGFloat = 44.0,
-         buttonHeight: CGFloat = 44.0,
+         buttonWidth: CGFloat = 40.0,
+         buttonHeight: CGFloat = 40.0,
          buttonContentColor: Color = .white,
          buttonBackgroundStyle: ButtonBackgroundStyle = Color.blue.gradient,
          buttonBorderColor: Color = .clear,

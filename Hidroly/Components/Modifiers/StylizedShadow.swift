@@ -20,14 +20,13 @@ struct StylizedShadow<T: InsettableShape>: ViewModifier {
             .background(
                 .background
                     .shadow(.drop(color: color.opacity(opacity), radius: radius, x: x, y: y)),
-                    // .shadow(.drop(color: color.opacity(opacity - 0.02), radius: radius, x: -x, y: -y)),
                 in: shape
             )
     }
 }
 
 extension View {
-    func customShadow<T: InsettableShape>(color: Color = .black, opacity: Double = 0.2, radius: CGFloat = 5, x: CGFloat = 5, y: CGFloat = 5, in shape: T) -> some View {
+    func stylizedShadow<T: InsettableShape>(color: Color = .black, opacity: Double = 0.4, radius: CGFloat = 5, x: CGFloat = 5, y: CGFloat = 5, in shape: T) -> some View {
         modifier(StylizedShadow(color: color, opacity: opacity, radius: radius, x: x, y: y, shape: shape))
     }
 }
