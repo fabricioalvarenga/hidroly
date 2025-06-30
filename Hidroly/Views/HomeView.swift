@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var weight: Float = 60.0
-    @State private var intakeTarget: Double = 2000.0
-    @State private var intakeProgress: Double = 0.5
-    @State private var amountIngested: Double = 1000.0
     @StateObject var viewModel = HomeViewModel()
 
     private let numberFormatter: NumberFormatter = {
@@ -38,13 +34,13 @@ struct HomeView: View {
                     ZStack {
                         mainCircleView
 
-                        CircularTextView(radius: radius, text: "SUA META: \(intakeTarget) ml", textPosition: .top)
+                        CircularTextView(radius: radius, text: "META DIÁRIA: \(viewModel.intakeTarget) ml", textPosition: .top)
 
-                        Text("\(Int(intakeProgress * 100))%")
+                        Text("\(Int(viewModel.intakeProgress * 100))%")
                             .font(.largeTitle)
                             .bold()
                                
-                        CircularTextView(radius: radius, text: "INGERIDO ATÉ AGORA: \(amountIngested) ml", textPosition: .bottom)
+                        CircularTextView(radius: radius, text: "INGERIDO ATÉ AGORA: \(viewModel.amountIngested) ml", textPosition: .bottom)
 
                         parameterButtonsView(size: geometry.size)
                     }
@@ -69,7 +65,7 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    var weightInputView: some View {
+    private var weightInputView: some View {
         ZStack {
             Capsule()
                 .foregroundStyle(Color.blue.gradient)
@@ -82,7 +78,7 @@ struct HomeView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.white)
 
-                TextField("", value: $weight, formatter: numberFormatter) 
+                TextField("", value: $viewModel.weight, formatter: numberFormatter) 
                     .textFieldStyle(.roundedBorder)
                     .multilineTextAlignment(.center)
                     .keyboardType(.decimalPad)
@@ -97,7 +93,7 @@ struct HomeView: View {
                         alignment: .trailing
                     )
                     
-                CustomStepper(value: $weight, step: 0.5)
+                CustomStepper(value: $viewModel.weight, step: 0.5)
             }
             .padding(.horizontal, 32)
         }
@@ -105,7 +101,7 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    var mainCircleView: some View {
+    private var mainCircleView: some View {
         let circleLineWdith: CGFloat = 20.0
     
         Circle()
@@ -114,11 +110,11 @@ struct HomeView: View {
             .stylizedShadow(in: .circle)
 
         Circle()
-            .trim(from: 0.0, to: intakeProgress)
+            .trim(from: 0.0, to: viewModel.intakeProgress)
             .stroke(AngularGradient(colors: [.blue, .cyan],
                         center: .center,
                         startAngle: Angle(degrees: 0),
-                        endAngle: Angle(degrees: 360 * intakeProgress)),
+                        endAngle: Angle(degrees: 360 * viewModel.intakeProgress)),
                     style: StrokeStyle(lineWidth: circleLineWdith, lineCap: .round)
                    )
             .padding(10)
@@ -126,7 +122,7 @@ struct HomeView: View {
     }
     
     @ViewBuilder
-    func parameterButtonsView(size: CGSize) -> some View {
+    private func parameterButtonsView(size: CGSize) -> some View {
         let minSize = min(size.width, size.height)
         let radius = minSize / 2 * 0.8075
         

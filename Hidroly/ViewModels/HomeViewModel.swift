@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import Combine
 
 class HomeViewModel: ObservableObject {
     @Published var showingParameterDialog = false
-    @Published var activeManagerIndex: Int?
+    @Published var weight: Double = 0.0
+    @Published var intakeTarget: Double = 0.0
+    @Published var intakeProgress: Double = 0.0
+    @Published var amountIngested: Double = 0.0
     @Published var parameterManagers: [any AnyParameterManager] = []
-    @Published var weight = 0
+    @Published var activeManagerIndex: Int?
 
     init() {
         setupParameters()
