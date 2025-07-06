@@ -23,7 +23,11 @@ enum ClimateType: String, ConfigurableParameter {
         return names[self] ?? ""
     }
 
-    var calculationFactor: Double {
+    var multiplicationFactor: Double {
+        return 1.0
+    }
+
+    var sumFactor: Double {
         let factors = [
             Self.temperateOrCold: 0.0,
             Self.hot: 300.0,

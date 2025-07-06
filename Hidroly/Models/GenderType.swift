@@ -23,12 +23,16 @@ enum GenderType: String, ConfigurableParameter {
         return names[self] ?? ""
     }
 
-    var calculationFactor: Double {
+    var multiplicationFactor: Double {
         let factors = [
             Self.male: 35.0,
             Self.female: 31.0,
-            Self.notInformed: 0.0
+            Self.notInformed: 31.0
         ]
         return factors[self] ?? 31.0
+    }
+
+    var sumFactor: Double {
+        return 0.0
     }
 }

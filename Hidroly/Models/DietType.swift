@@ -27,7 +27,11 @@ enum DietType: String, ConfigurableParameter {
         return names[self] ?? ""
     }
 
-    var calculationFactor: Double {
+    var multiplicationFactor: Double {
+        return 1.0
+    }
+
+    var sumFactor: Double {
         let factors = [
             Self.none: 0.0,
             Self.balanced: 250.0,

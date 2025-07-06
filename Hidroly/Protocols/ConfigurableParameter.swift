@@ -9,5 +9,7 @@ import SwiftUI
 
 protocol ConfigurableParameter: CaseIterable, Identifiable {
     var displayName: String { get }
-    var calculationFactor: Double { get }
+    var multiplicationFactor: Double { get }
+    var sumFactor: Double { get }
 }
+

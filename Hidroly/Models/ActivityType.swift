@@ -23,7 +23,11 @@ enum ActivityType: String, ConfigurableParameter {
         return names[self] ?? ""
     }
 
-    var calculationFactor: Double {
+    var multiplicationFactor: Double {
+        return 1.0
+    }
+
+    var sumFactor: Double {
         let factors = [
             Self.noneOrSlight: 0.0,
             Self.moderate: 300.0,

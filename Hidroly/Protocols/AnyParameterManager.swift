@@ -6,14 +6,19 @@
 //
 
 import SwiftUI
+import Combine
 
-protocol AnyParameterManager: ObservableObject {
+protocol AnyParameterManager: ObservableObject where Self.ObjectWillChangePublisher == ObservableObjectPublisher {
+    associatedtype C: ConfigurableParameter
+
+    var parameterType: C.Type { get }
     var title: String { get }
     var icon: Image { get }
-    var itemSelected: Bool { get }
+    var itemWasSelected: Bool { get }
     var selectedDisplayName: String { get }
-    var calculationFactor: Double { get }
+    var selectedMultiplicationFactor: Double { get }
+    var selectedSumFactor: Double { get }
     var dialogOptions: [ParameterOption] { get }
 
-    func selectOption(at index: Int)
+    // func selectOption(at index: Int)
 }

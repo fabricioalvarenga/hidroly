@@ -45,7 +45,7 @@ struct HomeView: View {
                         parameterButtonsView(size: geometry.size)
                     }
                     .padding(circlePadding)
-
+                    
                     Spacer()
                 }
                 .frame(width: geometry.size.width)
@@ -135,7 +135,7 @@ struct HomeView: View {
             let y = radius * sin(angle.radians)
             
             let manager = viewModel.parameterManagers[index]
-            let buttonBackgroundColor = manager.itemSelected ? Color.green : Color.secondary
+            let buttonBackgroundColor = manager.itemWasSelected ? Color.green : Color.secondary
             let textPosition: Edge = (angle.degrees >= 0 && angle.degrees <= 180) ? .bottom : .top
 
             // ParameterButton(manager: viewModel.parameterManagers[index], textPosition: buttonTextPosition) {

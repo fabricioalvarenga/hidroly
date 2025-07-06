@@ -14,11 +14,15 @@ class HomeViewModel: ObservableObject {
     @Published var intakeTarget: Double = 0.0
     @Published var intakeProgress: Double = 0.0
     @Published var amountIngested: Double = 0.0
-    @Published var parameterManagers: [any AnyParameterManager] = []
-    @Published var activeManagerIndex: Int?
-
+    
+    var parameterManagers: [any AnyParameterManager] = []
+    
+    private var activeManagerIndex: Int?
+    private var cancellables = Set<AnyCancellable>()
+                                
     init() {
         setupParameters()
+        setupObservers()
     }
 
     private func setupParameters() {
@@ -30,7 +34,42 @@ class HomeViewModel: ObservableObject {
             ParameterManager(parameterType: GenderType.self, title: "Gênero", icon: Image(systemName: "person.fill"))
         ]
     }
+    
+    private func setupObservers() {
+        $weight
+            .sink { [weak self] weight in
+                self?.recalculateIntakeTarget()
+            }
+            .store(in: &cancellables)
+        
+        for parameterManager in parameterManagers {
+            parameterManager.objectWillChange.eraseToAnyPublisher()
+                .sink { [weak self] in
+                    self?.recalculateIntakeTarget()
+                }
+                .store(in: &cancellables)
+        }
+    }
 
+    private func recalculateIntakeTarget() {
+        guard let genderParameter = getParameter(GenderType.self) else { return }
+        
+        let parameterManagersWithoutGender = parameterManagers.filter { parameter in
+            parameter.parameterType != GenderType.self
+        }
+        
+        intakeTarget = weight * genderParameter.selectedMultiplicationFactor
+       
+        for parameterManager in parameterManagersWithoutGender {
+            intakeTarget *= parameterManager.selectedMultiplicationFactor
+            intakeTarget += parameterManager.selectedSumFactor
+        }
+    }
+    
+    private func getParameter<T: ConfigurableParameter>(_ type: T.Type) -> ParameterManager<T>? {
+        return parameterManagers.first { $0.parameterType == T.self } as? ParameterManager<T>
+    }
+    
     func showParameterDialog(for index: Int) {
         activeManagerIndex = index
         showingParameterDialog = true

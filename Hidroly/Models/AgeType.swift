@@ -23,12 +23,16 @@ enum AgeType: String, ConfigurableParameter {
         return names[self] ?? ""
     }
 
-    var calculationFactor: Double {
+    var multiplicationFactor: Double {
+        return 1.0
+    }
+
+    var sumFactor: Double {
         let factors = [
-            Self.child: 1.0,
-            Self.middleAge: 1.0,
-            Self.senior: 1.0
+            Self.child: -500.0,
+            Self.middleAge: 0.0,
+            Self.senior: -300.0
         ]
-        return factors[self] ?? 1.0
+        return factors[self] ?? 0.0
     }
 }
