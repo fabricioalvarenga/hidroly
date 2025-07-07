@@ -9,19 +9,24 @@ import SwiftUI
 
 struct CustomStepper: View {
     @Binding var value: Double
-    var step = 1.0
+    var step: Double
+
+    init(value: Binding<Double>, step: Double = 1.0) {
+        self._value = value
+        self.step = step
+    }
     
     var body: some View {
         HStack {
             Button {
-                value -= 0.5
+                value -= step
             } label: {
                 Image(systemName: "minus")
                     .foregroundStyle(Color.white)
             }
             
             Button {
-                value += 0.5
+                value += step
             } label: {
                 Image(systemName: "plus")
                     .foregroundStyle(Color.white)
