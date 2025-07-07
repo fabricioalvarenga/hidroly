@@ -37,21 +37,22 @@ class HomeViewModel: ObservableObject {
     
     private func setupObservers() {
         $weight
-            .sink { [weak self] _ in
-                self?.calculateIntakeTarget()
+            .sink { [weak self] newWeight in
+                self?.calculateIntakeTarget(weight: newWeight)
             }
             .store(in: &cancellables)
         
         for parameterManager in parameterManagers {
             parameterManager.objectWillChange.eraseToAnyPublisher()
                 .sink { [weak self] in
-                    self?.calculateIntakeTarget()
+                    guard let self else { return }
+                    self.calculateIntakeTarget(weight: self.weight)
                 }
                 .store(in: &cancellables)
         }
     }
 
-    private func calculateIntakeTarget() {
+    private func calculateIntakeTarget(weight: Double) {
         guard let genderParameter = getParameterOfType(GenderType.self) else { return }
         
         intakeTarget = weight * genderParameter.selectedMultiplicationFactor
