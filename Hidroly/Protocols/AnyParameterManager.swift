@@ -21,4 +21,6 @@ protocol AnyParameterManager: ObservableObject where Self.ObjectWillChangePublis
     var dialogOptions: [ParameterOption] { get }
 
     // func selectOption(at index: Int)
+
+    func isParameterOfType(_ type: Any.Type) -> Bool
 }

@@ -37,6 +37,10 @@ class ParameterManager<C: ConfigurableParameter>: AnyParameterManager {
             .store(in: &cancellables)
     }
 
+    func isParameterOfType(_ type: Any.Type) -> Bool {
+        return parameterType == type
+    }
+
     var itemWasSelected: Bool {
         selectedOption != nil
     }

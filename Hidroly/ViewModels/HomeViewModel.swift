@@ -10,7 +10,7 @@ import Combine
 
 class HomeViewModel: ObservableObject {
     @Published var showingParameterDialog = false
-    @Published var weight: Double = 0.0
+    @Published var weight: Double = 60.0
     @Published var intakeTarget: Double = 0.0
     @Published var intakeProgress: Double = 0.0
     @Published var amountIngested: Double = 0.0
@@ -37,36 +37,38 @@ class HomeViewModel: ObservableObject {
     
     private func setupObservers() {
         $weight
-            .sink { [weak self] weight in
-                self?.recalculateIntakeTarget()
+            .sink { [weak self] _ in
+                self?.calculateIntakeTarget()
             }
             .store(in: &cancellables)
         
         for parameterManager in parameterManagers {
             parameterManager.objectWillChange.eraseToAnyPublisher()
                 .sink { [weak self] in
-                    self?.recalculateIntakeTarget()
+                    self?.calculateIntakeTarget()
                 }
                 .store(in: &cancellables)
         }
     }
 
-    private func recalculateIntakeTarget() {
-        guard let genderParameter = getParameter(GenderType.self) else { return }
-        
-        let parameterManagersWithoutGender = parameterManagers.filter { parameter in
-            parameter.parameterType != GenderType.self
-        }
+    private func calculateIntakeTarget() {
+        guard let genderParameter = getParameterOfType(GenderType.self) else { return }
         
         intakeTarget = weight * genderParameter.selectedMultiplicationFactor
        
-        for parameterManager in parameterManagersWithoutGender {
+        for parameterManager in parameterManagers {
+            // The gender parameter is used to calculate the initial base of intake target
+            // And then is ignored here
+            if parameterManager.isParameterOfType(GenderType.self) {
+                continue
+            }
+
             intakeTarget *= parameterManager.selectedMultiplicationFactor
             intakeTarget += parameterManager.selectedSumFactor
         }
     }
     
-    private func getParameter<T: ConfigurableParameter>(_ type: T.Type) -> ParameterManager<T>? {
+    private func getParameterOfType<T: ConfigurableParameter>(_ type: T.Type) -> ParameterManager<T>? {
         return parameterManagers.first { $0.parameterType == T.self } as? ParameterManager<T>
     }
     
